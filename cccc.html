@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Fertilizers</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://environment-review.yale.edu/sites/default/files/styles/flexslider_full/public/picturesque-wheat-field-sq.jpg?itok=V5fylKtP');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Heading style */
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            color: #2E8B57;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Unified container */
+        .container {
+            background-color: rgba(50, 205, 50, 0.92);
+            padding: 35px;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(6px);
+            border: 3px solid #FFD700;
+            transition: all 0.5s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Styling for form elements */
+        label {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #fff;
+            display: block;
+            margin-top: 18px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        select {
+            width: 100%;
+            padding: 13px;
+            font-size: 1.05em;
+            border-radius: 10px;
+            border: 2px solid #FFD700;
+            outline: none;
+            margin-top: 8px;
+            background-color: #4169E1;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        select:hover {
+            background-color: #1E90FF;
+            transform: scale(1.02);
+        }
+
+        select:focus {
+            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.4);
+        }
+
+        /* Button styling */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.15em;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 22px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-back {
+            background-color: #fff;
+            color: #2E8B57;
+            border: 2px solid #2E8B57;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #2E8B57;
+            border: 2px solid #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Results page styles */
+        .results-container {
+            display: none;
+            background-color: rgba(46, 139, 87, 0.96);
+            padding: 35px;
+            border-radius: 18px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(6px);
+            border: 3px solid #FFD700;
+            animation: fadeIn 0.9s ease-out;
+            margin: 20px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-title {
+            color: #FFD700;
+            margin-bottom: 30px;
+            font-size: 2.4em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .results-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #FFD700;
+            border-radius: 2px;
+        }
+
+        .crop-info {
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: left;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #FFD700;
+        }
+
+        .crop-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .crop-icon {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 3px solid #2E8B57;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .crop-name {
+            color: #2E8B57;
+            font-weight: 700;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .soil-info {
+            font-style: italic;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .crop-description {
+            line-height: 1.7;
+            color: #444;
+        }
+
+        .fertilizers-title {
+            color: #FFD700;
+            margin: 25px 0 15px;
+            text-align: left;
+            font-size: 1.8em;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .fertilizer-card {
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            color: #333;
+            transition: all 0.4s ease;
+            border-left: 5px solid #FFD700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .fertilizer-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .fertilizer-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+            border: 2px solid #2E8B57;
+        }
+
+        .fertilizer-content {
+            flex: 1;
+        }
+
+        .fertilizer-name {
+            color: #2E8B57;
+            font-weight: 700;
+            font-size: 1.4em;
+            margin-bottom: 8px;
+        }
+
+        .fertilizer-desc {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .fertilizer-application {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #555;
+            margin-top: 10px;
+            border-left: 3px solid #4169E1;
+        }
+
+        .btn-return {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #2E8B57;
+            width: 220px;
+            margin-top: 35px;
+            border: 2px solid #fff;
+            font-weight: 600;
+        }
+
+        .language-icon {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 45px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+        }
+
+        .language-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container, .results-container {
+                width: 95%;
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .fertilizer-card {
+                flex-direction: column;
+            }
+            
+            .fertilizer-img {
+                width: 100%;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .crop-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .crop-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <img src="https://cdn-icons-png.flaticon.com/512/3898/3898082.png" alt="Language" class="language-icon" onclick="toggleLanguage()">
+
+    <div id="form-page">
+        <h1>Fertilizers for Organic Farming</h1>
+
+        <div class="container">
+            <label for="cropType">Agriculture Crop Type:</label>
+            <select id="cropType">
+                <option value="paddy">Paddy (వరి)</option>
+                <option value="blackgram">Blackgram (నల్లపప్పు)</option>
+                <option value="maize">Maize (మొక్కజొన్న)</option>
+                <option value="groundnut">Groundnut (వేరుశనగ)</option>
+            </select>
+
+            <label for="soilType">Soil Type:</label>
+            <select id="soilType">
+                <option value="clayeyloam">Clayey Loam (కలపు మట్టివిడి)</option>
+                <option value="redsoil">Red Soil (ఎర్ర మట్టి)</option>
+                <option value="sandy">Sandy Soil (పసుపు మట్టి)</option>
+            </select>
+
+            <label for="language">Language:</label>
+            <select id="language">
+                <option value="english">English</option>
+                <option value="telugu">తెలుగు</option>
+            </select>
+
+            <button class="btn btn-back" onclick="">Back</button>
+            <button class="btn btn-submit" onclick="showResults()">Submit</button>
+        </div>
+    </div>
+
+    <div id="results-page" class="results-container">
+        <h2 class="results-title" id="results-title">Organic Fertilizer Recommendations</h2>
+        
+        <div class="crop-info" id="crop-info">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+        
+        <h3 class="fertilizers-title" id="fertilizers-title">Recommended Fertilizers:</h3>
+        
+        <div id="fertilizers-container">
+            <!-- Dynamic fertilizer cards will be inserted here -->
+        </div>
+        
+        <button class="btn btn-return" onclick="returnToForm()">Return to Form</button>
+    </div>
+
+    <script>
+        // Current language state
+        let currentLanguage = 'english';
+        
+        // Fertilizer data with images for different crops
+        const fertilizerData = {
+            paddy: {
+                english: {
+                    name: "Paddy (Rice)",
+                    soil: "Clayey Loam",
+                    description: "Paddy requires nutrient-rich soil with good water retention capacity. Organic fertilizers help maintain soil health while providing essential nutrients for optimal rice production.",
+                    image: "https://plus.unsplash.com/premium_photo-1663945778994-11b3201882a0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    fertilizers: [
+                        {
+                            name: "Farmyard Manure (FYM)",
+                            description: "Apply 5-10 tons per acre before the last plowing. FYM improves soil structure, enhances water retention, and provides slow-release nutrients essential for paddy growth.",
+                            application: "Basal application before planting",
+                            image: "https://5.imimg.com/data5/XJ/BP/CG/SELLER-24042533/organic-fertilizers-1000x1000.jpg"
+                        },
+                        {
+                            name: "Vermicompost",
+                            description: "Apply 2-3 tons per acre. Rich in nutrients and beneficial microorganisms that enhance plant growth, improve soil aeration, and boost disease resistance in paddy.",
+                            application: "Mix with soil during land preparation",
+                            image: "https://www.wormgear.com/wp-content/uploads/2022/05/pexels-sippakorn-yamkasikorn-3696170-1-scaled.jpg"
+                        },
+                        {
+                            name: "Green Manure (Dhaincha/Sesbania)",
+                            description: "Grow and incorporate 6-8 weeks before planting. Improves soil organic matter and nitrogen content significantly, reducing the need for additional nitrogen fertilizers.",
+                            application: "Plow under 2-3 weeks before transplanting",
+                            image: "https://www.agrifarming.in/wp-content/uploads/sesbania-grandiflora-219085_1280-1-1068x801.jpg"
+                        },
+                        {
+                            name: "Neem Cake",
+                            description: "Apply 250 kg per acre. Acts as both fertilizer and natural pest repellent, protecting paddy from soil-borne pathogens while providing essential nutrients.",
+                            application: "Mix with soil during preparation",
+                            image: "https://www.agrifarming.in/wp-content/uploads/2020/08/Pic1.jpg"
+                        },
+                        {
+                            name: "Azolla",
+                            description: "Grow azolla in rice fields as dual crop. Fixes atmospheric nitrogen, suppresses weeds, and provides excellent organic matter when decomposed.",
+                            application: "Apply 1 ton/acre before transplanting",
+                            image: "https://azgardens.com/wp-content/uploads/2017/06/Azzolla-2-scaled.jpg"
+                        }
+                    ]
+                },
+                telugu: {
+                    name: "వరి",
+                    soil: "కలపు మట్టివిడి",
+                    description: "వరికి పోషకాలు అధికంగా ఉన్న మట్టి మరియు మంచి నీటి నిలుపుదల సామర్థ్యం అవసరం. సేంద్రీయ ఎరువులు మట్టి ఆరోగ్యాన్ని కాపాడుతూ అవసరమైన పోషకాలను అందిస్తాయి.",
+                    image: "https://plus.unsplash.com/premium_photo-1663945778994-11b3201882a0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    fertilizers: [
+                        {
+                            name: "ఫార్మ్యార్డ్ మ్యాన్యూర్ (FYM)",
+                            description: "చివరి దున్నుకు ముందు ఎకరాకు 5-10 టన్నులు వేయండి. FYM మట్టి నిర్మాణాన్ని మెరుగుపరుస్తుంది మరియు నెమ్మదిగా విడుదలయ్యే పోషకాలను అందిస్తుంది.",
+                            application: "నాటడానికి ముందు బేసల్ అప్లికేషన్",
+                            image: "https://5.imimg.com/data5/XJ/BP/CG/SELLER-24042533/organic-fertilizers-1000x1000.jpg"
+                        },
+                        {
+                            name: "వర్మీకంపోస్ట్",
+                            description: "ఎకరాకు 2-3 టన్నులు వేయండి. పోషకాలు మరియు మొక్కల పెరుగుదలను మెరుగుపరిచే ప్రయోజనకరమైన సూక్ష్మజీవులతో సమృద్ధిగా ఉంటుంది.",
+                            application: "భూమి తయారీ సమయంలో మట్టితో కలపండి",
+                            image: "https://www.wormgear.com/wp-content/uploads/2022/05/pexels-sippakorn-yamkasikorn-3696170-1-scaled.jpg"
+                        },
+                        {
+                            name: "గ్రీన్ మ్యాన్యూర్ (ధైంచ/సెస్బానియా)",
+                            description: "నాటడానికి 6-8 వారాల ముందు పెంచి భూమిలో కలపండి. మట్టి సేంద్రీయ పదార్థం మరియు నత్రజని కంటెంట్ను మెరుగుపరుస్తుంది.",
+                            application: "ట్రాన్స్ప్లాంట్ చేయడానికి 2-3 వారాల ముందు దున్నండి",
+                            image: "https://www.agrifarming.in/wp-content/uploads/sesbania-grandiflora-219085_1280-1-1068x801.jpg"
+                        },
+                        {
+                            name: "నీమ్ కేక్",
+                            description: "ఎకరాకు 250 కిలోలు వేయండి. ఎరువు మరియు సహజ పురుగు నివారిణిగా పనిచేస్తుంది.",
+                            application: "తయారీ సమయంలో మట్టితో కలపండి",
+                            image: "https://www.agrifarming.in/wp-content/uploads/2020/08/Pic1.jpg"
+                        },
+                        {
+                            name: "అజొల్లా",
+                            description: "వరి పొలాలలో అజొల్లాను పెంచండి. వాతావరణ నత్రజనిని స్థిరీకరిస్తుంది మరియు కలుపు మొక్కలను అణిచివేస్తుంది.",
+                            application: "ట్రాన్స్ప్లాంట్ చేయడానికి ముందు 1 టన్ను/ఎకరా వేయండి",
+                            image: "https://scontent.fhyd3-1.fna.fbcdn.net/v/t39.30808-6/476806138_122207510348234579_832463261568503872_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=7kYx_mw-DuMQ7kNvwHSpJAA&_nc_oc=AdmCOtsOdYodenF0wJawRBx3HKw2G6rlC0U-nqKaF8UJiC5mxJB4orsppf4KuH_rBeBvKsxLoCeg0bpq1kQRSsSe&_nc_zt=23&_nc_ht=scontent.fhyd3-1.fna&_nc_gid=zmr0j_qB6ovIRBFIWOodvg&oh=00_AfP_LnsW24AeBSSK5-noGlxkt-qiflI_WQFQlwqPMUpDxQ&oe=6850BFA1"
+                        }
+                    ]
+                }
+            },
+            blackgram: {
+                english: {
+                    name: "Blackgram (Urad Dal)",
+                    soil: "Clayey Loam",
+                    description: "Blackgram thrives in well-drained soils with moderate fertility. Organic fertilizers enhance nitrogen fixation and improve yield while maintaining soil health.",
+                    image: "https://www.shutterstock.com/shutterstock/photos/1799592337/display_1500/stock-photo-black-lentils-isolated-dry-organic-lentil-displayed-black-gram-or-black-mung-background-1799592337.jpg",
+                    fertilizers: [
+                        {
+                            name: "Compost",
+                            description: "Apply 2-3 tons per acre. Improves soil structure and provides balanced nutrition for healthy blackgram plants.",
+                            application: "Mix thoroughly during land preparation",
+                            image: "https://brownliving.in/cdn/shop/articles/composting-services-222290.jpg?v=1703200386&width=700"
+                        },
+                        {
+                            name: "Rhizobium Culture",
+                            description: "Treat seeds with Rhizobium culture to enhance nitrogen fixation in the soil, reducing the need for nitrogen fertilizers.",
+                            application: "Seed treatment before sowing",
+                            image: "https://media.gettyimages.com/id/175479144/photo/close-up-of-soybean-roots.jpg?s=2048x2048&w=gi&k=20&c=wH-yRI_dz3hx2hok-ehMofi-lmMDyN31uNfBBzfrC_k="
+                        }
+                    ]
+                },
+                telugu: {
+                    name: "నల్లపప్పు",
+                    soil: "కలపు మట్టివిడి",
+                    description: "నల్లపప్పు మధ్యస్థ సంతానోత్పత్తి కలిగిన బాగా నీరు బసిబడే నేలలో బాగా పెరుగుతుంది. సేంద్రీయ ఎరువులు నత్రజని స్థిరీకరణను మెరుగుపరుస్తాయి.",
+                    image: "https://www.shutterstock.com/shutterstock/photos/1799592337/display_1500/stock-photo-black-lentils-isolated-dry-organic-lentil-displayed-black-gram-or-black-mung-background-1799592337.jpg",
+                    fertilizers: [
+                        {
+                            name: "కంపోస్ట్",
+                            description: "ఎకరాకు 2-3 టన్నులు వేయండి. మట్టి నిర్మాణాన్ని మెరుగుపరుస్తుంది మరియు సమతుల్య పోషకాలను అందిస్తుంది.",
+                            application: "భూమి తయారీ సమయంలో బాగా కలపండి",
+                            image: "https://brownliving.in/cdn/shop/articles/composting-services-222290.jpg?v=1703200386&width=700"
+                        },
+                        {
+                            name: "రైజోబియం కల్చర్",
+                            description: "మట్టిలో నత్రజని స్థిరీకరణను మెరుగుపరచడానికి విత్తనాలను రైజోబియం కల్చర్తో చికిత్స చేయండి.",
+                            application: "విత్తడానికి ముందు విత్తన చికిత్స",
+                            image: "https://media.gettyimages.com/id/175479144/photo/close-up-of-soybean-roots.jpg?s=2048x2048&w=gi&k=20&c=wH-yRI_dz3hx2hok-ehMofi-lmMDyN31uNfBBzfrC_k="
+                        }
+                    ]
+                }
+            }
+        };
+// Add this to your existing fertilizerData object
+fertilizerData.maize = {
+    english: {
+        name: "Maize (Corn)",
+        soil: "Red Soil",
+        description: "Maize grows best in well-drained, fertile soils with good organic matter. Organic fertilizers help improve soil structure and provide balanced nutrition for optimal corn production.",
+        image: "https://www.epicgardening.com/wp-content/uploads/2024/07/harvested-maize-in-a-woven-basket.jpg",
+        fertilizers: [
+            {
+                name: "Composted Cow Manure",
+                description: "Apply 4-5 tons per acre. Rich in nitrogen and other essential nutrients, it improves soil fertility and water retention capacity for maize crops.",
+                application: "Mix with soil during land preparation",
+                image: "https://www.homebiogas.com/wp-content/uploads/2023/09/shutterstock_1784566982-1-scaled.jpg.webp"
+            },
+            {
+                name: "Vermicompost",
+                description: "Apply 2-3 tons per acre. Enhances soil microbial activity and provides readily available nutrients for vigorous maize plant growth.",
+                application: "Apply in planting rows or mix with soil",
+                image: "https://thumbs.dreamstime.com/z/vermicomposting-nature-agriculture-earthworm-organic-vermicompost-vermiculture-sustainable-gardening-vermicomposting-nature-320629677.jpg?ct=jpeg"
+            },
+            {
+                name: "Neem Cake",
+                description: "Apply 200 kg per acre. Acts as both fertilizer and natural pest repellent, protecting maize from soil-borne pathogens while providing nutrients.",
+                application: "Mix with soil during preparation",
+                image: "https://www.greendna.in/cdn/shop/products/neem1_1024x1024@2x.jpg?v=1568040847"
+            },
+            {
+                name: "Green Manure (Sunhemp)",
+                description: "Grow and incorporate 6-8 weeks before planting. Adds organic matter and nitrogen to the soil, improving fertility for maize cultivation.",
+                application: "Plow under 3 weeks before sowing",
+                image: "https://www.goodfoodtoall.com/wp-content/uploads/2023/08/sun-hemp.png"
+            },
+            {
+                name: "Rock Phosphate",
+                description: "Apply 100-150 kg per acre. Provides slow-release phosphorus essential for root development and energy transfer in maize plants.",
+                application: "Broadcast and incorporate before planting",
+                image: "https://www.epicgardening.com/wp-content/uploads/2020/01/soft-rock-phosphate-fertilizer.jpg"
+            }
+        ]
+    },
+    telugu: {
+        name: "మొక్కజొన్న",
+        soil: "ఎర్ర మట్టి",
+        description: "మొక్కజొన్న బాగా నీరు బసిబడే, సారవంతమైన నేలలో బాగా పెరుగుతుంది. సేంద్రీయ ఎరువులు మట్టి నిర్మాణాన్ని మెరుగుపరుస్తాయి మరియు సమతుల్య పోషకాలను అందిస్తాయి.",
+        image: "https://www.epicgardening.com/wp-content/uploads/2024/07/harvested-maize-in-a-woven-basket.jpg",
+        fertilizers: [
+            {
+                name: "కంపోస్ట్ చేసిన ఆవు పేడ",
+                description: "ఎకరాకు 4-5 టన్నులు వేయండి. నత్రజని మరియు ఇతర అవసరమైన పోషకాలతో సమృద్ధిగా ఉంటుంది, ఇది మొక్కజొన్న పంటలకు మట్టి సారవంతం మరియు నీటి నిలుపుదల సామర్థ్యాన్ని మెరుగుపరుస్తుంది.",
+                application: "భూమి తయారీ సమయంలో మట్టితో కలపండి",
+                image: "https://www.homebiogas.com/wp-content/uploads/2023/09/shutterstock_1784566982-1-scaled.jpg.webp"
+            },
+            {
+                name: "వర్మీకంపోస్ట్",
+                description: "ఎకరాకు 2-3 టన్నులు వేయండి. మట్టి సూక్ష్మజీవుల కార్యకలాపాలను మెరుగుపరుస్తుంది మరియు మొక్కజొన్న మొక్కల పెరుగుదలకు అవసరమైన పోషకాలను అందిస్తుంది.",
+                application: "నాటే వరుసలలో వేయండి లేదా మట్టితో కలపండి",
+                image: "https://thumbs.dreamstime.com/z/vermicomposting-nature-agriculture-earthworm-organic-vermicompost-vermiculture-sustainable-gardening-vermicomposting-nature-320629677.jpg?ct=jpeg"
+            },
+            {
+                name: "నీమ్ కేక్",
+                description: "ఎకరాకు 200 కిలోలు వేయండి. ఎరువు మరియు సహజ పురుగు నివారిణిగా పనిచేస్తుంది, మట్టి నుండి వచ్చే రోగకారకాల నుండి మొక్కజొన్నను రక్షిస్తుంది.",
+                application: "తయారీ సమయంలో మట్టితో కలపండి",
+                image: "https://www.greendna.in/cdn/shop/products/neem1_1024x1024@2x.jpg?v=1568040847"
+            },
+            {
+                name: "గ్రీన్ మ్యాన్యూర్ (సన్హెంప్)",
+                description: "నాటడానికి 6-8 వారాల ముందు పెంచి భూమిలో కలపండి. మట్టికి సేంద్రీయ పదార్థం మరియు నత్రజనిని జోడిస్తుంది.",
+                application: "విత్తడానికి 3 వారాల ముందు దున్నండి",
+                image: "https://www.goodfoodtoall.com/wp-content/uploads/2023/08/sun-hemp.png"
+            },
+            {
+                name: "రాక్ ఫాస్ఫేట్",
+                description: "ఎకరాకు 100-150 కిలోలు వేయండి. మొక్కజొన్న మొక్కలలో రూట్ అభివృద్ధి మరియు శక్తి బదిలీకి అవసరమైన ఫాస్ఫరస్‌ను నెమ్మదిగా విడుదల చేస్తుంది.",
+                application: "విత్తడానికి ముందు విస్తరించి కలపండి",
+                image: "https://www.epicgardening.com/wp-content/uploads/2020/01/soft-rock-phosphate-fertilizer.jpg"
+            }
+        ]
+    }
+};
+
+fertilizerData.groundnut = {
+    english: {
+        name: "Groundnut (Peanut)",
+        soil: "Sandy Soil",
+        description: "Groundnut prefers well-drained sandy or sandy loam soils. Organic fertilizers help in improving soil fertility and pod development while maintaining soil health.",
+        image: "https://www.shutterstock.com/shutterstock/photos/2512774015/display_1500/stock-photo-a-farmer-holding-freshly-harvested-peanuts-with-roots-in-a-field-the-background-features-green-2512774015.jpg",
+        fertilizers: [
+            {
+                name: "Farmyard Manure",
+                description: "Apply 5-6 tons per acre. Improves soil structure and provides essential nutrients for healthy groundnut plant growth and pod development.",
+                application: "Mix thoroughly during land preparation",
+                image: "https://media.istockphoto.com/id/1760006676/photo/close-up-of-a-farmers-hand-examinng-dirt-in-a-romaine-lettuce-field.jpg?s=2048x2048&w=is&k=20&c=QxIFmjXVN4sjj0BHcWhKO19YwZNDqm9Y4mQ2UlXrvpo="
+            },
+            {
+                name: "Vermicompost",
+                description: "Apply 2 tons per acre. Enhances soil microbial activity and provides readily available nutrients for vigorous groundnut growth.",
+                application: "Apply in planting rows",
+                image: "https://parachutekalpavriksha.org/cdn/shop/articles/Vermicomposting_using_coconut_leaves_in_coconut_farms.jpg?v=1711258531&width=1400"
+            },
+            {
+                name: "Rhizobium Culture",
+                description: "Treat seeds with Rhizobium culture to enhance nitrogen fixation in the soil, which is essential for groundnut's growth and yield.",
+                application: "Seed treatment before sowing",
+                image: "https://media.gettyimages.com/id/1352713082/photo/nodules-on-alder-roots.jpg?s=2048x2048&w=gi&k=20&c=oaGWlPtSR06nqH_BQdRfivykxx3MWrLoZ6sqSkprMjE="
+            },
+            {
+                name: "Neem Cake",
+                description: "Apply 250 kg per acre. Acts as both fertilizer and natural pest repellent, protecting groundnut from soil-borne pathogens.",
+                application: "Mix with soil during preparation",
+                image: "https://5.imimg.com/data5/ID/HX/MY-67039917/pure-neem-cake-1000x1000.jpeg"
+            },
+            {
+                name: "Gypsum",
+                description: "Apply 500 kg per acre. Provides calcium which is essential for proper pod formation and prevents pod rot in groundnut.",
+                application: "Broadcast at flowering stage",
+                image: ""
+            }
+        ]
+    },
+    telugu: {
+        name: "వేరుశనగ",
+        soil: "పసుపు మట్టి",
+        description: "వేరుశనగ బాగా నీరు బసిబడే ఇసుక మట్టి లేదా ఇసుక కలపు మట్టిని ఇష్టపడుతుంది. సేంద్రీయ ఎరువులు మట్టి సారవంతం మరియు కాయల అభివృద్ధికి సహాయపడతాయి.",
+        image: "https://www.shutterstock.com/shutterstock/photos/2512774015/display_1500/stock-photo-a-farmer-holding-freshly-harvested-peanuts-with-roots-in-a-field-the-background-features-green-2512774015.jpg",
+        fertilizers: [
+            {
+                name: "ఫార్మ్యార్డ్ మ్యాన్యూర్",
+                description: "ఎకరాకు 5-6 టన్నులు వేయండి. మట్టి నిర్మాణాన్ని మెరుగుపరుస్తుంది మhttps://www.croplife.com/wp-content/uploads/2020/12/Gypsum-Source-of-Calcium-and-Sulfur.jpgరియు ఆరోగ్యకరమైన వేరుశనగ మొక్కల పెరుగుదల మరియు కాయల అభివృద్ధికి అవసరమైన పోషకాలను అందిస్తుంది.",
+                application: "భూమి తయారీ సమయంలో బాగా కలపండి",
+                image: "https://media.istockphoto.com/id/1760006676/photo/close-up-of-a-farmers-hand-examinng-dirt-in-a-romaine-lettuce-field.jpg?s=2048x2048&w=is&k=20&c=QxIFmjXVN4sjj0BHcWhKO19YwZNDqm9Y4mQ2UlXrvpo="
+            },
+            {
+                name: "వర్మీకంపోస్ట్",
+                description: "ఎకరాకు 2 టన్నులు వేయండి. మట్టి సూక్ష్మజీవుల కార్యకలాపాలను మెరుగుపరుస్తుంది మరియు వేరుశనగ పెరుగుదలకు అవసరమైన పోషకాలను అందిస్తుంది.",
+                application: "నాటే వరుసలలో వేయండి",
+                image: "https://parachutekalpavriksha.org/cdn/shop/articles/Vermicomposting_using_coconut_leaves_in_coconut_farms.jpg?v=1711258531&width=1400"
+            },
+            {
+                name: "రైజోబియం కల్చర్",
+                description: "మట్టిలో నత్రజని స్థిరీకరణను మెరుగుపరచడానికి విత్తనాలను రైజోబియం కల్చర్తో చికిత్స చేయండి.",
+                application: "విత్తడానికి ముందు విత్తన చికిత్స",
+                image: "https://media.gettyimages.com/id/1352713082/photo/nodules-on-alder-roots.jpg?s=2048x2048&w=gi&k=20&c=oaGWlPtSR06nqH_BQdRfivykxx3MWrLoZ6sqSkprMjE="
+            },
+            {
+                name: "నీమ్ కేక్",
+                description: "ఎకరాకు 250 కిలోలు వేయండి. ఎరువు మరియు సహజ పురుగు నివారిణిగా పనిచేస్తుంది.",
+                application: "తయారీ సమయంలో మట్టితో కలపండి",
+                image: "https://5.imimg.com/data5/ID/HX/MY-67039917/pure-neem-cake-1000x1000.jpeg"
+            },
+            {
+                name: "జిప్సం",
+                description: "ఎకరాకు 500 కిలోలు వేయండి. సరైన కాయల ఏర్పాటుకు అవసరమైన కాల్షియం‌ను అందిస్తుంది.",
+                application: "పుష్పించే దశలో విస్తరించండి",
+                image: "https://www.croplife.com/wp-content/uploads/2020/12/Gypsum-Source-of-Calcium-and-Sulfur.jpg"
+            }
+        ]
+    }
+};
+
+        function toggleLanguage() {
+            const languageSelect = document.getElementById('language');
+            currentLanguage = languageSelect.value === 'english' ? 'telugu' : 'english';
+            languageSelect.value = currentLanguage;
+            updateFormLanguage();
+        }
+
+        function updateFormLanguage() {
+            const labels = document.querySelectorAll('label');
+            const options = document.querySelectorAll('option');
+            
+            if (currentLanguage === 'telugu') {
+                document.querySelector('h1').textContent = "సేంద్రీయ వ్యవసాయానికి ఎరువులు";
+                labels[0].textContent = "వ్యవసాయ పంట రకం:";
+                labels[1].textContent = "నేల రకం:";
+                labels[2].textContent = "భాష:";
+                document.querySelector('.btn-back').textContent = "వెనుకకు";
+                document.querySelector('.btn-submit').textContent = "సమర్పించండి";
+            } else {
+                document.querySelector('h1').textContent = "Fertilizers for Organic Farming";
+                labels[0].textContent = "Agriculture Crop Type:";
+                labels[1].textContent = "Soil Type:";
+                labels[2].textContent = "Language:";
+                document.querySelector('.btn-back').textContent = "Back";
+                document.querySelector('.btn-submit').textContent = "Submit";
+            }
+        }
+
+        function showResults() {
+            const cropType = document.getElementById('cropType').value;
+            const soilType = document.getElementById('soilType').value;
+            const language = document.getElementById('language').value;
+            
+            currentLanguage = language;
+            
+            // Hide form and show results
+            document.getElementById('form-page').style.display = 'none';
+            document.getElementById('results-page').style.display = 'block';
+            
+            // Update results page content
+            const cropData = fertilizerData[cropType][currentLanguage];
+            
+            document.getElementById('results-title').textContent = currentLanguage === 'english' 
+                ? `Organic Fertilizer Recommendations for ${cropData.name}` 
+                : `${cropData.name} కోసం సేంద్రీయ ఎరువు సిఫార్సులు`;
+            
+            document.getElementById('fertilizers-title').textContent = currentLanguage === 'english'
+                ? "Recommended Fertilizers:"
+                : "సిఫార్సు చేసిన ఎరువులు:";
+            
+            const cropInfoHTML = `
+                <div class="crop-header">
+                    <img src="${cropData.image}" alt="${cropData.name}" class="crop-icon">
+                    <div>
+                        <h3 class="crop-name">${cropData.name}</h3>
+                        <p class="soil-info"><strong>${currentLanguage === 'english' ? 'Soil Type:' : 'నేల రకం:'}</strong> ${cropData.soil}</p>
+                    </div>
+                </div>
+                <p class="crop-description">${cropData.description}</p>
+            `;
+            
+            document.getElementById('crop-info').innerHTML = cropInfoHTML;
+            
+            let fertilizersHTML = '';
+            cropData.fertilizers.forEach(fert => {
+                fertilizersHTML += `
+                    <div class="fertilizer-card">
+                        <img src="${fert.image}" alt="${fert.name}" class="fertilizer-img">
+                        <div class="fertilizer-content">
+                            <div class="fertilizer-name">${fert.name}</div>
+                            <div class="fertilizer-desc">${fert.description}</div>
+                            <div class="fertilizer-application"><strong>${currentLanguage === 'english' ? 'Application:' : 'అప్లికేషన్:'}</strong> ${fert.application}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('fertilizers-container').innerHTML = fertilizersHTML;
+            
+            document.querySelector('.btn-return').textContent = currentLanguage === 'english' 
+                ? 'Return to Form' 
+                : 'ఫారమ్‌కి తిరిగి వెళ్లండి';
+        }
+
+        function returnToForm() {
+            document.getElementById('results-page').style.display = 'none';
+            document.getElementById('form-page').style.display = 'block';
+        }
+
+        // Initialize form language
+        document.getElementById('language').addEventListener('change', function() {
+            currentLanguage = this.value;
+            updateFormLanguage();
+        });
+
+        // Update form language on page load
+        updateFormLanguage();
+    </script>
+</body>
+</html>

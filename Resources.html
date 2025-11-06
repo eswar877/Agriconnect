@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriAlmanac 2.0 | Smart Farming Resources</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a8c2c;
+            --secondary: #f5a623;
+            --dark: #2c3e21;
+            --light: #f9f8f3;
+            --accent: #3a6fd9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(249, 248, 243, 0.85);
+            z-index: -1;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .interactive-tool {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 2.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f0f7ed;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            display: none;
+        }
+
+        .results h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .planting-calendar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .calendar-month {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .month-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .planting-days {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .day {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.8rem;
+        }
+
+        .plant-day {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .harvest-day {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .moon-phase {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .moon-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* YouTube Video Section Styles */
+        .video-resources {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+
+        .video-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .video-card {
+            min-width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+        }
+
+        .video-iframe {
+            width: 100%;
+            height: 315px;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .video-info {
+            padding: 1rem 0.5rem;
+        }
+
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .video-channel {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .video-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-btn {
+            padding: 0.5rem 1.2rem;
+            background: #f0f7ed;
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .planting-calendar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .video-iframe {
+                height: 250px;
+            }
+
+            .carousel-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AgriAlmanac 2.0</h1>
+        <p class="tagline">Your smart companion for modern farming - blending traditional wisdom with cutting-edge technology</p>
+    </header>
+
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card animate-in">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    Smart Planting Calendar
+                </div>
+                <div class="card-body">
+                    <p>Get personalized planting and harvesting dates based on your exact location, soil type, and climate conditions.</p>
+                </div>
+            </div>
+
+            <div class="feature-card animate-in delay-1">
+                <div class="card-header">
+                    <div class="card-icon">🌱</div>
+                    Soil Health Tracker
+                </div>
+                <div class="card-body">
+                    <p>Monitor your soil's nutrient levels and receive customized recommendations for improvement.</p>
+                </div>
+            </div>
+
+            <div class="feature-card animate-in delay-2">
+                <div class="card-header">
+                    <div class="card-icon">🐛</div>
+                    Pest Prediction
+                </div>
+                <div class="card-body">
+                    <p>Advanced algorithms predict pest outbreaks before they happen, giving you time to prepare.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-tool animate-in delay-3">
+            <div class="tool-header">
+                <h2>Personalized Planting Planner</h2>
+                <p>Enter your details to get customized planting recommendations</p>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Your Location</label>
+                <select id="location">
+                    <option value="">Select your region</option>
+                    <option value="north">Northern Region</option>
+                    <option value="south">Southern Region</option>
+                    <option value="east">Eastern Region</option>
+                    <option value="west">Western Region</option>
+                    <option value="central">Central Region</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="crop">Primary Crop</label>
+                <select id="crop">
+                    <option value="">Select your main crop</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="corn">Corn</option>
+                    <option value="soybeans">Soybeans</option>
+                    <option value="rice">Rice</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="soil-type">Soil Type</label>
+                <select id="soil-type">
+                    <option value="">Select your soil type</option>
+                    <option value="clay">Clay</option>
+                    <option value="sandy">Sandy</option>
+                    <option value="loamy">Loamy</option>
+                    <option value="silty">Silty</option>
+                    <option value="peaty">Peaty</option>
+                    <option value="chalky">Chalky</option>
+                </select>
+            </div>
+
+            <button id="calculate-btn">Generate My Planting Plan</button>
+
+            <div class="results" id="results">
+                <h3>Your Custom Planting Plan</h3>
+                <div id="plan-details"></div>
+                
+                <h4>Monthly Planting Calendar</h4>
+                <div class="planting-calendar" id="calendar">
+                    <!-- Generated by JS -->
+                </div>
+                
+                <div class="moon-phase">
+                    <div class="moon-icon">🌖</div>
+                    <p>Current moon phase: Waxing Gibbous (Good for planting above-ground crops)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- New YouTube Video Resources Section -->
+        <div class="video-resources animate-in delay-4">
+            <div class="section-header">
+                <h2>Farmer's Video Academy</h2>
+                <p>Watch and learn from expert farmers and agricultural scientists</p>
+            </div>
+
+            <div class="video-categories">
+                <button class="category-btn active" data-category="all">All Topics</button>
+                <button class="category-btn" data-category="soil">Soil Health</button>
+                <button class="category-btn" data-category="pest">Pest Control</button>
+                <button class="category-btn" data-category="tech">Farming Tech</button>
+                <button class="category-btn" data-category="organic">Organic Farming</button>
+            </div>
+
+            <div class="video-carousel">
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="video-container" id="video-container">
+                    <!-- Video cards will be added by JavaScript -->
+                </div>
+                
+                <div class="carousel-nav" id="carousel-nav">
+                    <!-- Navigation dots will be added by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p> Combining ancient wisdom with modern science</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements as they come into view
+            const animateElements = document.querySelectorAll('.animate-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animateElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(el);
+            });
+
+            // Planting planner functionality
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultsDiv = document.getElementById('results');
+            const planDetails = document.getElementById('plan-details');
+            const calendarDiv = document.getElementById('calendar');
+
+            calculateBtn.addEventListener('click', function() {
+                const location = document.getElementById('location').value;
+                const crop = document.getElementById('crop').value;
+                const soilType = document.getElementById('soil-type').value;
+
+                if (!location || !crop || !soilType) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                // Generate plan details
+                let details = `<p>Based on your <strong>${location}</strong> location, growing <strong>${crop}</strong> in <strong>${soilType}</strong> soil, here's your optimal plan:</p>`;
+                
+                // Add recommendations based on selections
+                details += `<ul>`;
+                
+                if (crop === 'wheat') {
+                    details += `<li>Plant in early fall for winter wheat or early spring for spring wheat</li>`;
+                    details += `<li>Rotate with legumes to maintain soil nitrogen</li>`;
+                } else if (crop === 'corn') {
+                    details += `<li>Plant when soil temperature reaches at least 50°F (10°C)</li>`;
+                    details += `<li>Consider companion planting with beans and squash</li>`;
+                } else if (crop === 'vegetables') {
+                    details += `<li>Stagger plantings every 2 weeks for continuous harvest</li>`;
+                    details += `<li>Use row covers for early season protection</li>`;
+                }
+                
+                if (soilType === 'clay') {
+                    details += `<li>Add organic matter to improve drainage</li>`;
+                } else if (soilType === 'sandy') {
+                    details += `<li>Use compost to increase water retention</li>`;
+                }
+                
+                details += `</ul>`;
+                
+                planDetails.innerHTML = details;
+                
+                // Generate calendar
+                generateCalendar(crop);
+                
+                // Show results
+                resultsDiv.style.display = 'block';
+                resultsDiv.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            function generateCalendar(crop) {
+                calendarDiv.innerHTML = '';
+                
+                const months = [
+                    'January', 'February', 'March', 'April', 
+                    'May', 'June', 'July', 'August',
+                    'September', 'October', 'November', 'December'
+                ];
+                
+                // Determine planting/harvest months based on crop
+                let plantingMonths = [];
+                let harvestMonths = [];
+                
+                switch(crop) {
+                    case 'wheat':
+                        plantingMonths = [9, 10]; // Fall planting
+                        harvestMonths = [6, 7];    // Summer harvest
+                        break;
+                    case 'corn':
+                        plantingMonths = [4, 5];    // Spring planting
+                        harvestMonths = [8, 9];     // Late summer/fall harvest
+                        break;
+                    case 'soybeans':
+                        plantingMonths = [5];       // Late spring planting
+                        harvestMonths = [9, 10];    // Fall harvest
+                        break;
+                    case 'vegetables':
+                        plantingMonths = [3, 4, 5, 6, 7]; // Spring through summer
+                        harvestMonths = [6, 7, 8, 9, 10]; // Summer through fall
+                        break;
+                    default:
+                        plantingMonths = [3, 4, 5]; // Default spring planting
+                        harvestMonths = [8, 9];     // Default fall harvest
+                }
+                
+                // Create calendar months
+                months.forEach((month, index) => {
+                    const monthDiv = document.createElement('div');
+                    monthDiv.className = 'calendar-month';
+                    
+                    const monthHeader = document.createElement('div');
+                    monthHeader.className = 'month-header';
+                    monthHeader.textContent = month.substring(0, 3);
+                    monthDiv.appendChild(monthHeader);
+                    
+                    const daysDiv = document.createElement('div');
+                    daysDiv.className = 'planting-days';
+                    
+                    // Create days (simplified - 30 days per month)
+                    for (let i = 1; i <= 30; i++) {
+                        const dayDiv = document.createElement('div');
+                        dayDiv.className = 'day';
+                        dayDiv.textContent = i;
+                        
+                        // Mark planting/harvest days
+                        if (plantingMonths.includes(index) && i <= 15) {
+                            dayDiv.classList.add('plant-day');
+                        } else if (harvestMonths.includes(index) && i > 15) {
+                            dayDiv.classList.add('harvest-day');
+                        }
+                        
+                        daysDiv.appendChild(dayDiv);
+                    }
+                    
+                    monthDiv.appendChild(daysDiv);
+                    calendarDiv.appendChild(monthDiv);
+                });
+            }
+
+            // YouTube Video Carousel Functionality
+            const videos = [
+                {
+                    id: "8ulpy_GFLDk",
+                    title: "Modern Organic Farming Techniques",
+                    channel: "Farm Innovation Channel",
+                    category: "organic"
+                },
+                {
+                    id: "https://youtu.be/y17llzdsgh4",
+                    title: "Soil Health: The Foundation of Agriculture",
+                    channel: "AgriScience Today",
+                    category: "soil"
+                },
+                {
+                    id: "https://youtu.be/o48CYz5FMO0",
+                    title: "Integrated Pest Management Strategies",
+                    channel: "Sustainable Farming",
+                    category: "pest"
+                },
+                {
+                    id: "https://youtu.be/alZxAXhHKmY",
+                    title: "Drone Technology in Precision Agriculture",
+                    channel: "Future Farming",
+                    category: "tech"
+                },
+                {
+                    id: "https://youtu.be/nnGUbl1qAds",
+                    title: "Composting for Healthy Soil",
+                    channel: "Organic Growers",
+                    category: "soil"
+                },
+                {
+                    id: "https://youtu.be/o6LP6MdWgvY",
+                    title: "Natural Pest Control Methods",
+                    channel: "Eco Farming",
+                    category: "pest"
+                },
+                {
+                    id: "https://youtu.be/74P20fGJv1w",
+                    title: "Vertical Farming: The Future of Agriculture",
+                    channel: "Urban Farming Solutions",
+                    category: "tech"
+                },
+                {
+                    id: "https://youtu.be/ofmWHWimdFM",
+                    title: "Organic Fertilizers: Making Your Own",
+                    channel: "Homegrown Harvest",
+                    category: "organic"
+                }
+            ];
+
+            const videoContainer = document.getElementById('video-container');
+            const carouselNav = document.getElementById('carousel-nav');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            let currentSlide = 0;
+            let filteredVideos = [...videos];
+
+            // Initialize carousel
+            function initCarousel() {
+                videoContainer.innerHTML = '';
+                carouselNav.innerHTML = '';
+                
+                filteredVideos.forEach((video, index) => {
+                    // Create video card
+                    const videoCard = document.createElement('div');
+                    videoCard.className = 'video-card';
+                    videoCard.dataset.index = index;
+                    
+                    videoCard.innerHTML = `
+                        <div class="video-embed">
+                            <iframe class="video-iframe" src="https://www.youtube.com/embed/${video.id}" 
+                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">${video.title}</div>
+                            <div class="video-channel">${video.channel}</div>
+                        </div>
+                    `;
+                    
+                    videoContainer.appendChild(videoCard);
+                    
+                    // Create navigation dot
+                    const dot = document.createElement('div');
+                    dot.className = 'carousel-dot';
+                    if (index === 0) dot.classList.add('active');
+                    dot.dataset.index = index;
+                    dot.addEventListener('click', () => goToSlide(index));
+                    carouselNav.appendChild(dot);
+                });
+                
+                updateCarousel();
+            }
+
+            // Update carousel position
+            function updateCarousel() {
+                videoContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update active dot
+                document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            // Go to specific slide
+            function goToSlide(index) {
+                currentSlide = index;
+                updateCarousel();
+            }
+
+            // Next slide
+            document.querySelector('.next').addEventListener('click', () => {
+                if (currentSlide < filteredVideos.length - 1) {
+                    currentSlide++;
+                } else {
+                    currentSlide = 0;
+                }
+                updateCarousel();
+            });
+
+            // Previous slide
+            document.querySelector('.prev').addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                } else {
+                    currentSlide = filteredVideos.length - 1;
+                }
+                updateCarousel();
+            });
+
+            // Filter videos by category
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const category = btn.dataset.category;
+                    
+                    if (category === 'all') {
+                        filteredVideos = [...videos];
+                    } else {
+                        filteredVideos = videos.filter(video => video.category === category);
+                    }
+                    
+                    currentSlide = 0;
+                    initCarousel();
+                });
+            });
+
+            // Initialize on load
+            initCarousel();
+
+            // Auto-advance carousel
+            setInterval(() => {
+                if (currentSlide < filteredVideos.length - 1) {
+                    currentSlide++;
+                } else {
+                    currentSlide = 0;
+                }
+                updateCarousel();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
